@@ -7,7 +7,7 @@ using namespace std;
 int main() {
 
 	// Initialize an instance of the BookLogReader class to read the log file
-	BookLogReader logger("./test-books.txt");
+	BookLogReader logger("./book-log.txt");
 
 	cout << "Text logs" << endl;
 	for (auto line : logger.logs) {
