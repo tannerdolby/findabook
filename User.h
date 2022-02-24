@@ -14,15 +14,13 @@ public:
 class User {
 public:
 	string username;
-	int count;
 	LibraryCard libraryCard;
 	vector<Book> checkedOutBooks;
 
 	User() {
 		username = "default-user";
-		count = 0;
 		LibraryCard card;
-		card.id = count + 1;
+		card.id += 1;
 		card.numBooksCheckedOut = 0;
 		libraryCard = card;
 		vector<Book> books;
