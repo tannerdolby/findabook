@@ -20,7 +20,11 @@ public:
 		genre = bookGenre;
 	}
 
-	void toStr() {
+	void printBook() {
 		cout << title << " by " << author << " (" << genre << ")" << endl;
+	}
+
+	string toString() {
+		return title + " by " + author + " (" + genre + ")";
 	}
 };

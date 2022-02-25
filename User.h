@@ -1,15 +1,11 @@
-class LibraryCard {
-public:
-	int id;
-	int numBooksCheckedOut;
-	int bookLimit;
+#include <iostream>
+#include <vector>
+#include <fstream>
 
-	LibraryCard() {
-		id = 0;
-		numBooksCheckedOut = 0;
-		bookLimit = 3; // only 3 books can be checked out at a time
-	}
-};
+#ifndef USER_H
+#define USER_H
+
+#include "LibraryCard.h"
 
 class User {
 public:
@@ -17,18 +13,47 @@ public:
 	LibraryCard libraryCard;
 	vector<Book> checkedOutBooks;
 
+	int lastCreatedCardId;
+
 	User() {
-		username = "default-user";
 		LibraryCard card;
-		card.id += 1;
-		card.numBooksCheckedOut = 0;
-		libraryCard = card;
 		vector<Book> books;
+		username = "default-user";
+		libraryCard = card;
 		checkedOutBooks = books;
+		lastCreatedCardId = card.id;
+		// write created user to user log
+		// username <LibraryCard>
+		ofstream ofs;
+		ofs.open("./action-log.txt", ios::app);
+		ofs << "User created: " << toString() << endl;
 	}
 
-	// Ask the librarian to do something
-//	void askLibrarian(User user, string task) {
-//		Librarian librarian;
-//	}
+	User(string name) {
+		LibraryCard card;
+		vector<Book> books;
+		username = name;
+		libraryCard = card;
+		checkedOutBooks = books;
+		ofstream ofs;
+		ofs.open("./action-log.txt", ios::app);
+		ofs << "User created: " << toString() << endl;
+	}
+
+	void logAction(ofstream& ofs) {
+		ofs.open("./action-log.txt", ios::app);
+		ofs << "User created: " << toString() << endl;
+	}
+
+	// username <LibraryCard> or username <NULL>
+	void printUser() {
+		cout << username;
+		libraryCard.printCard();
+	}
+
+	string toString() {
+		return username + ", " + libraryCard.toString();
+	}
+
 };
+#endif /* USER_H */
