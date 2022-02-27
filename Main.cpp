@@ -40,19 +40,6 @@ int main() {
 	// library cards to allow them to browse the library
 	Librarian librarian;
 
-
-	User userOne("gnaare");
-	vector<Book> vec;
-	Book b;
-	b.title = "Yer a Wizard Arry";
-	b.author = "J.K. Rowling";
-	vec.push_back(b);
-	userOne.checkedOutBooks = vec;
-	userOne.libraryCard.booksCheckedOut++;
-
-	userOne.printUser();
-
-	cout << endl;
 	cout << "Welcome to the Library!" << endl;
 	cout << "Do you have a library card? Enter 'Yes' or 'No'" << endl;
 	string s;
