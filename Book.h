@@ -1,6 +1,9 @@
 #include <iostream>
 using namespace std;
 
+#ifndef BOOK_H
+#define BOOK_H
+
 class Book {
 
 public:
@@ -28,3 +31,4 @@ public:
 		return title + " by " + author + " (" + genre + ")";
 	}
 };
+#endif /* BOOK_H */

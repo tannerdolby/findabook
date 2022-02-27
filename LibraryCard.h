@@ -1,17 +1,22 @@
+#include <fstream>
+using namespace std;
+
 class LibraryCard {
 public:
 	int id;
 	int booksCheckedOut;
 	int bookLimit;
+	int lastIdAdded;
 
 	LibraryCard() {
-		id = 1;
+		id = 0;
 		booksCheckedOut = 0;
 		bookLimit = 3; // only 3 books can be checked out at a time
 	}
 
 	LibraryCard(int cardId) {
 		id = cardId;
+		lastIdAdded = id;
 		booksCheckedOut = 0;
 		bookLimit = 3;
 	}
@@ -22,7 +27,7 @@ public:
 
 	string toString() {
 		string s = "library card: " + to_string(id);
-		s += ", checked out books: " + to_string(booksCheckedOut);
+		s += ", # checked out: " + to_string(booksCheckedOut);
 		return s;
 	}
 };
