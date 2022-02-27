@@ -8,4 +8,4 @@ todo
 Can't find a book or an author your looking for? Feel free to add books to an existing authors book log or create a log for a new author in a few quick steps, visit [adding to library guide] for more details.
 
 ## Resources
-Book information provided by the [Open Library API](https://openlibrary.org/dev/docs/api/).
+Book information provided by the [openlibrary](https://github.com/tannerdolby/openlibrary).
