@@ -49,7 +49,7 @@ public:
 		userLogFile = "./users.txt";
 		for (int i=0; i < bookLogFilePaths.size(); i++) {
 			string path = bookLogFilePaths[i];
-			scanBookLog("./" + removeNonAlphaNumeric(path) + "/books.txt");
+			scanBookLog("./library/authors/" + removeNonAlphaNumeric(path) + "/books.txt");
 		}
 		scanUserLog();
 	}
@@ -70,7 +70,7 @@ public:
 		userLogFile = userLogFilename;
 		for (int i=0; i < bookLogFilePaths.size(); i++) {
 			string path = bookLogFilePaths[i];
-			scanBookLog("./" + removeNonAlphaNumeric(path) + "/books.txt");
+			scanBookLog("./library/authors/" + removeNonAlphaNumeric(path) + "/books.txt");
 		}
 		scanUserLog();
 	}
