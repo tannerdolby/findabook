@@ -4,8 +4,6 @@
 void pollForAction(string username);
 
 int main() {
-
-	// Initialize an instance of the BookLogReader class to read the log file
 	vector<string> bookDirs;
 	bookDirs.push_back("JK-Rowling");
 	bookDirs.push_back("Brian-Jacques");
