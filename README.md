@@ -4,7 +4,7 @@ Browse the wares of the library. A user must be created to obtain a library card
 ## Demo
 todo
 
-## Adding To The Library
+## Add to the Library
 Can't find a book or an author your looking for? Feel free to add books to an existing authors book log or create a log for a new author in a few quick steps, visit [adding to library guide](/adding-to-library.md) for more details.
 
 ## Resources

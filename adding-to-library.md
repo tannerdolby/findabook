@@ -1,3 +1,4 @@
+# Add Content to Library
 Adding to the library only takes a few steps. Depending on what type of addition you would like to do, there will only be two scenarios:
 
 1. Add a single book or books to an existing author directory.
