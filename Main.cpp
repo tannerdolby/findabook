@@ -1,34 +1,21 @@
 #include <iostream>
 #include "Librarian.h"
-#include "Logger.h"
-
-using namespace std;
 
 void pollForAction(string username);
 
 int main() {
 
 	// Initialize an instance of the BookLogReader class to read the log file
-	Logger logger("./test-books.txt", "./library-log.txt");
+	vector<string> bookDirs;
+	bookDirs.push_back("JK-Rowling");
+	bookDirs.push_back("Brian-Jacques");
+	bookDirs.push_back("Katherine-Neville");
 
-	cout << "Text logs" << endl;
-	for (auto line : logger.bookLogs) {
-		cout << line << endl;
-	}
-
-	cout << endl;
-
-	cout << "Book Object logs" << endl;
-
-	for (auto book : logger.books) {
-		book.printBook();
-	}
-
-	cout << endl;
+	Librarian lib(bookDirs, "./users.txt");
 
 	cout << "Library" << endl;
 
-	for (auto pair : logger.library) {
+	for (auto pair : lib.library) {
 		cout << pair.first << ": " << endl;
 		for (auto book : pair.second) {
 			book.printBook();
@@ -38,7 +25,6 @@ int main() {
 
 	// Librarian will keep track of book operations and checking users
 	// library cards to allow them to browse the library
-	Librarian librarian;
 
 	cout << "Welcome to the Library!" << endl;
 	cout << "Do you have a library card? Enter 'Yes' or 'No'" << endl;
@@ -57,7 +43,7 @@ int main() {
 			cout << "Enter your username associated with library card: " << endl;
 			cin >> username;
 
-			if (!logger.doesUserExist(username)) {
+			if (!lib.doesUserExist(username)) {
 				cout << "Woops! That username doesn't exist." << endl;
 				break;
 			}
@@ -71,9 +57,9 @@ int main() {
 
 			// before writing that username to "user-log.txt"
 			// check if the username already exists
-			string uniqueName = logger.pollForUniqueName(username);
+			string uniqueName = lib.pollForUniqueName(username);
 
-			logger.addUserToLog(uniqueName);
+			lib.addUserToLog(uniqueName);
 
 			pollForAction(uniqueName);
 
