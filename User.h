@@ -16,7 +16,6 @@ public:
 	vector<Book> checkedOutBooks;
 
 	User() {
-		ofstream ofs;
 		LibraryCard card;
 		vector<Book> books;
 		username = "default-user";
@@ -25,8 +24,14 @@ public:
 	}
 
 	User(string name) {
-		ofstream ofs;
 		LibraryCard card;
+		vector<Book> books;
+		username = name;
+		libraryCard = card;
+		checkedOutBooks = books;
+	}
+
+	User(string name, LibraryCard card) {
 		vector<Book> books;
 		username = name;
 		libraryCard = card;

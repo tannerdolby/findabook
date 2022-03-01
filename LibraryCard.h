@@ -6,19 +6,20 @@ public:
 	int id;
 	int booksCheckedOut;
 	int bookLimit;
-	int lastIdAdded;
+	int lastAddedId;
 
 	LibraryCard() {
-		id = 0;
+		lastAddedId = 0;
+		id = lastAddedId;
 		booksCheckedOut = 0;
-		bookLimit = 3; // only 3 books can be checked out at a time
+		bookLimit = 3;
 	}
 
 	LibraryCard(int cardId) {
 		id = cardId;
-		lastIdAdded = id;
 		booksCheckedOut = 0;
 		bookLimit = 3;
+		lastAddedId = id;
 	}
 
 	void printCard() {

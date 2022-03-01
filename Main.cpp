@@ -4,6 +4,7 @@
 void pollForAction(string username);
 
 int main() {
+
 	vector<string> bookDirs;
 	bookDirs.push_back("JK-Rowling");
 	bookDirs.push_back("Brian-Jacques");
@@ -26,29 +27,29 @@ int main() {
 
 	cout << "Welcome to the Library!" << endl;
 	cout << "Do you have a library card? Enter 'Yes' or 'No'" << endl;
-	string s;
+	string userChoice;
 
 	int primaryKey = 1;
+
 	// Library Loop
 	do {
-
-		cin >> s;
-		cout << s << endl;
+		cin >> userChoice;
+		lower(userChoice);
 
 		string username;
-		if (s == "Yes") {
 
-			cout << "Enter your username associated with library card: " << endl;
+		if (userChoice == "yes") {
+			cout << "Enter username associated with your library card: " << endl;
 			cin >> username;
 
 			if (!lib.doesUserExist(username)) {
-				cout << "Woops! That username doesn't exist." << endl;
+				cout << "Woops! That username doesn't exist. Come back later!" << endl;
 				break;
 			}
 
 			pollForAction(username);
 
-		} else if (s == "No") {
+		} else if (userChoice == "no") {
 			cout << "Process initiated: Creating New User with Library Card" << endl;
 			cout << "Enter your username: " << endl;
 			cin >> username;
@@ -58,7 +59,6 @@ int main() {
 			string uniqueName = lib.pollForUniqueName(username);
 
 			lib.addUserToLog(uniqueName);
-
 			pollForAction(uniqueName);
 
 			break;
@@ -66,16 +66,21 @@ int main() {
 
 		primaryKey++;
 
-	} while (s != "quit");
+	} while (userChoice != "quit");
 
 	return 0;
 }
 
 void pollForAction(string username) {
 	string action = "";
-	string actions[3] = {"Search the library", "Return a book", "View your checked out books"};
+	string actions[4] = {
+			"Search by title",
+			"Search by author",
+			"View your checked out books",
+			"Return a book",
+	};
 	int actionListSize = sizeof(actions) / sizeof(actions[0]);
-	cout << "Greetings " + username + "." << endl;
+	cout << "Greetings " + username + "! ";
 	cout << "What brings you to the library today?" << endl;
 	for (int i=0; i < actionListSize; i++) {
 		cout << to_string(i+1) + ". " + actions[i] << endl;

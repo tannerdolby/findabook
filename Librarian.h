@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include "Book.h"
@@ -26,6 +27,7 @@ public:
 	vector<string> bookLogs;
 	vector<Book> books;
 	string name;
+
     // String   | int| int             | vector<Book>
     // Username | id | # of checkedOut | List of checked out (3 at most!)
     // --------- ---- ----------------- --------------------------------
@@ -37,9 +39,7 @@ public:
     //	unordered_map<string, User> users;
 
 	unordered_set<string> usernameList;
-
 	unordered_map<string, User> usersTable;
-
 	unordered_map<string, vector<Book> > library;
 
 	Librarian() {
@@ -47,41 +47,31 @@ public:
 		bookLogFilePaths.push_back("Katherine-Neville");
 		bookLogFilePaths.push_back("J.K.-Rowling");
 		userLogFile = "./users.txt";
-		for (int i=0; i < bookLogFilePaths.size(); i++) {
-			string path = bookLogFilePaths[i];
-			scanBookLog("./library/authors/" + removeNonAlphaNumeric(path) + "/books.txt");
-		}
+		scanAllBookLogs();
 		scanUserLog();
-	}
-
-	string removeNonAlphaNumeric(string s) {
-		string nonAlnum = "";
-		for (int i=0; i < s.length(); i++) {
-			if (!isalnum(s[i]) && s[i] != '-') {
-				continue;
-			}
-			nonAlnum += s[i];
-		}
-		return nonAlnum;
 	}
 
 	Librarian(vector<string> bookLogFiles, string userLogFilename) {
 		bookLogFilePaths = bookLogFiles;
 		userLogFile = userLogFilename;
-		for (int i=0; i < bookLogFilePaths.size(); i++) {
-			string path = bookLogFilePaths[i];
-			scanBookLog("./library/authors/" + removeNonAlphaNumeric(path) + "/books.txt");
-		}
+		scanAllBookLogs();
 		scanUserLog();
 	}
 
 	void scanUserLog() {
 		ifstream file;
+		int idx = 1;
 		file.open(userLogFile);
 		if (file.is_open()) {
 			string line;
 			while (getline(file, line)) {
+				User user;
+				LibraryCard card(idx);
+				user.username = line;
+				user.libraryCard = card;
+				usersTable[line] = user;
 				usernameList.insert(line);
+				idx++;
 			}
 		}
 	}
@@ -111,11 +101,8 @@ public:
         ofstream ofs;
         ofs.open("./users.txt", ios::app);
         ofs << username << endl;
+        ofs.close();
     }
-
-    // handle a interaction with user for checking out a book
-    // and write to the "Librarian log" to keep track of users checking
-    // out a book and at what time/date
 
     bool checkLibraryCard(User user) {
         LibraryCard card = user.libraryCard;
@@ -130,7 +117,33 @@ public:
         user.libraryCard = updatedCard;
     }
 
-	// Search functionality - searchByAuthor, searchByTitle, searchByGenre
+	// todo: Search functionality
+
+    static bool cmp(const Book& a, const Book& b) {
+    	return a.title < b.title;
+    }
+
+    // todo: Search for a book by title from the library
+    Book searchByTitle(string bookTitle) {
+    	vector<Book> bookList = library["all"];
+    	Book book;
+    	// sort book objects by title
+    	sort(bookList.begin(), bookList.end(), cmp);
+
+    	return book;
+    }
+
+    // Get all the books for a given author
+    vector<Book> searchByAuthor(string author) {
+    	return library[author];
+    }
+
+    void scanAllBookLogs() {
+    	for (int i=0; i < bookLogFilePaths.size(); i++) {
+    		string path = bookLogFilePaths[i];
+    		scanBookLog("./library/authors/" + removeNonAlphaNumeric(path) + "/books.txt");
+    	}
+    }
 
 	vector<string> scanBookLog(string filepath) {
 		vector<string> bookLog;
@@ -141,15 +154,16 @@ public:
 		if (file.is_open()) {
 		    string author = "";
 			while (getline(file, line)) {
-			    Book book;
 			    istringstream ss(line);
 			    string l;
 			    if (lineNum == 1) {
 			    	author = line;
 			    }
+			    Book book;
 			    book.title = line;
 			    book.author = author;
 			    library[author].push_back(book);
+			    library["all"].push_back(book);
 			    lineNum++;
 			}
 			file.close();
@@ -157,6 +171,17 @@ public:
 			cout << "Error scanning book logs!" << endl;
 		}
 		return bookLog;
+	}
+
+	string removeNonAlphaNumeric(string s) {
+		string nonAlnum = "";
+		for (int i=0; i < s.length(); i++) {
+			if (!isalnum(s[i]) && s[i] != '-') {
+				continue;
+			}
+			nonAlnum += s[i];
+		}
+		return nonAlnum;
 	}
 };
 
@@ -185,4 +210,3 @@ void lower(string& s) {
 	for (int i=0; i < s.length(); i++) {
 		s[i] = tolower(s[i]);
 	}
-}

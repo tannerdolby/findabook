@@ -24,11 +24,11 @@ public:
 	}
 
 	void printBook() {
-		cout << title << " by " << author << " (" << genre << ")" << endl;
+		cout << title << " by " << author << endl;
 	}
 
 	string toString() {
-		return title + " by " + author + " (" + genre + ")";
+		return title + " by " + author;
 	}
 };
 #endif /* BOOK_H */
