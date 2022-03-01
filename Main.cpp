@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Librarian.h"
 
-void pollForAction(string username);
+void pollForAction(Librarian& lib);
 
 int main() {
 
@@ -40,26 +40,27 @@ int main() {
 
 		if (userChoice == "yes") {
 			cout << "Enter username associated with your library card: " << endl;
-			cin >> username;
+			getline(std::cin >> std::ws, username);
 
 			if (!lib.doesUserExist(username)) {
 				cout << "Woops! That username doesn't exist. Come back later!" << endl;
 				break;
 			}
-
-			pollForAction(username);
+			cout << "Greetings " + username + "! ";
+			pollForAction(lib);
 
 		} else if (userChoice == "no") {
 			cout << "Process initiated: Creating New User with Library Card" << endl;
 			cout << "Enter your username: " << endl;
-			cin >> username;
+			getline(std::cin >> std::ws, username);
 
 			// before writing that username to "user-log.txt"
 			// check if the username already exists
 			string uniqueName = lib.pollForUniqueName(username);
 
 			lib.addUserToLog(uniqueName);
-			pollForAction(uniqueName);
+			cout << "Greetings " + username + "! ";
+			pollForAction(lib);
 
 			break;
 		}
@@ -71,24 +72,60 @@ int main() {
 	return 0;
 }
 
-void pollForAction(string username) {
+void pollForAction(Librarian& lib) {
 	string action = "";
-	string actions[4] = {
+	string actions[5] = {
 			"Search by title",
 			"Search by author",
+			"Checkout a book",
 			"View your checked out books",
 			"Return a book",
 	};
+
 	int actionListSize = sizeof(actions) / sizeof(actions[0]);
-	cout << "Greetings " + username + "! ";
+
 	cout << "What brings you to the library today?" << endl;
+
 	for (int i=0; i < actionListSize; i++) {
 		cout << to_string(i+1) + ". " + actions[i] << endl;
 	}
+
 	cout << "Type 'quit' to leave" << endl;
+
 	cin >> action;
-	if (action == "quit") {
+
+	if (action == "1") {
+		// todo: fuzzy search by title
+
+	} else if (action == "2") {
+		// search by author
+		string author = "";
+		cout << "Enter author: " << endl;
+		getline(std::cin >> std::ws, author);
+		vector<Book> booksByAuthor = lib.searchByAuthor(author);
+		for (auto b : booksByAuthor) {
+			cout << b.title << endl;
+		}
+		cout << "\nDisplayed " << booksByAuthor.size() << " results by " << author << endl;
+		cout << endl;
+		// poll for action again (todo: pass action by reference so it gets updated when recursive calls resolve)
+		pollForAction(lib);
+
+		if (action == "quit") return;
+
+	} else if (action == "3") {
+		// Checkout a book given a book title and author (or in todo unique book ID)
+
+	} else if (action == "4") {
+		// Display a users checked out books
+
+	} else if (action == "5") {
+		// Return a book given a title and author
+
+	} else if (action == "quit") {
 		cout << "Thanks for stopping by!" << endl;
 		return;
+	} else {
+		cout << "Invalid choice! Select 1-4 or type 'quit'" << endl;
 	}
 }

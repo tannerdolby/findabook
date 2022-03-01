@@ -15,11 +15,6 @@ string& rtrim(string&, const char* = " \t\n\r\f\v");
 string& trim(string&, const char* = " \t\n\r\f\v");
 void lower(string& s);
 
-struct UniqueNameCheck {
-	bool exists;
-	string uniqueName;
-};
-
 class Librarian {
 public:
 	vector<string> bookLogFilePaths;
@@ -135,7 +130,12 @@ public:
 
     // Get all the books for a given author
     vector<Book> searchByAuthor(string author) {
-    	return library[author];
+    	vector<Book> targetBook;
+    	if (library.find(author) != library.end()) {
+    		targetBook = library[author];
+    		return targetBook;
+    	}
+    	return targetBook;
     }
 
     void scanAllBookLogs() {
@@ -210,3 +210,4 @@ void lower(string& s) {
 	for (int i=0; i < s.length(); i++) {
 		s[i] = tolower(s[i]);
 	}
+}
